@@ -58,13 +58,25 @@ int ft_rp(t_dynarray *darr)
 	return (0);
 }
 
+int ft_rrp(t_dynarray *darr)
+{
+	int tmp;
+	int *tab;
+
+	tab = (int *)darr->list;
+	tmp = tab[darr->nb_cells - 1];
+	pop_dynarray(darr, 1, 0);
+	push_dynarray(darr, &tmp, 1, 1);
+	return (0);
+}
+
 int ft_parse(int argc, char **argv, t_dynarray *darr)
 {
 	int			i;
 	int			*tab;
 
 	i = 1;
-	if (argc < 2 || !argv)
+	if (argc < 3 || !argv)
 	{
 		write(1, "Error\n", 6);
 		return (-1);
@@ -93,7 +105,7 @@ int ft_parse(int argc, char **argv, t_dynarray *darr)
 
 int main(int argc, char **argv)
 {
-	int i;
+	uint64_t i;
 	int *tab;
 
 	i = 0;
@@ -101,18 +113,22 @@ int main(int argc, char **argv)
 
 
 	if (ft_parse(argc, argv, &darr) == -1)
-	{
-		printf("parse error");
 		return (-1);
-	}
+
 	tab = (int *)darr.list;
+	i = 0;
 	while (i < darr.nb_cells)
 	{
 		printf("%d ", tab[i]);
 		i++;
 	}
 	printf("\n");
+
 	ft_rp(&darr);
+	ft_rrp(&darr);
+	ft_sp(&darr);
+
+	tab = (int *)darr.list;
 	i = 0;
 	while (i < darr.nb_cells)
 	{
